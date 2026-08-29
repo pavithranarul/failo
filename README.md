@@ -4,6 +4,8 @@
 [![PyPI](https://img.shields.io/pypi/v/failo.svg)](https://pypi.org/project/failo/)
 [![Python](https://img.shields.io/pypi/pyversions/failo.svg)](https://pypi.org/project/failo/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+
 Reliable AI calls with retry, fallback, and failover support.
 
 Failo is a lightweight, provider-independent resilience layer for AI applications. It sits on top of your existing AI SDK and handles transient failures without forcing you to replace your provider client.
