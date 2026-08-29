@@ -1,5 +1,9 @@
 # Failo
 
+[![CI](https://github.com/pavithranarul/failo/actions/workflows/tests.yml/badge.svg)](https://github.com/pavithranarul/failo/actions/workflows/tests.yml)
+[![PyPI](https://img.shields.io/pypi/v/failo.svg)](https://pypi.org/project/failo/)
+[![Python](https://img.shields.io/pypi/pyversions/failo.svg)](https://pypi.org/project/failo/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 Reliable AI calls with retry, fallback, and failover support.
 
 Failo is a lightweight, provider-independent resilience layer for AI applications. It sits on top of your existing AI SDK and handles transient failures without forcing you to replace your provider client.
@@ -15,12 +19,32 @@ Application
 OpenAI Gemini Claude Other
 ```
 
+```text
+                    Application
+                         |
+                         v
+                  +--------------+
+                  |    Failo     |
+                  |              |
+                  | Retry        |
+                  | Classification
+                  | Fallback     |
+                  | Policies     |
+                  +------+-------+
+                         |
+              Existing provider callable
+                         |
+          +--------------+--------------+
+          |              |              |
+       OpenAI         Gemini         Anthropic
+```
+
 - **Zero runtime dependencies.** Standard library only.
 - **No SDK lock-in.** Failo never imports `openai`, `anthropic`, `google-genai`, LangChain, or LiteLLM. You keep your client; you hand Failo a callable.
 - **Async-first**, with a thin blocking helper for sync codebases.
 - **Typed**, with `py.typed` shipped.
 
-> **Status: v0.1, early.** The API is small and tested, but it has not been battle-tested in production. Treat it as alpha.
+> **Status: v0.1.0, early release.** The API is small and tested, but it has not been battle-tested in production. Treat it as alpha.
 
 ## Install
 
@@ -92,7 +116,7 @@ Fallback 2
   +-- success
 ```
 
-Each operation gets the full retry policy before the next one is tried.
+Each provider receives its own full retry budget before Failo moves to the next fallback.
 
 ## Reusing a policy
 
@@ -258,7 +282,7 @@ assert delays == [1.0, 2.0]
 
 ## Planned, not implemented
 
-These are **not** in v0.1:
+These are **not** in v0.1.0):
 
 - Provider adapters (OpenAI / Gemini / Anthropic) as optional extras
 - Circuit breakers
